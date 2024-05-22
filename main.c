@@ -5,15 +5,41 @@
 
 int main(int argc, char *argv[])
 {
-    if(argc != 4)
+    if (argc != 4)
         return 1;
 
-    FILE *fileOut, *fileIn, *taskFile; 
+    FILE *taskFile, *fileIn, *fileOut;
     openFiles(argv[1], &taskFile, argv[2], &fileIn, argv[3], &fileOut);
-    TeamNode* teams = readTeams(fileIn, fileOut);
+    TeamNode* teams = NULL;
 
-    printTeams(teams);
+    int tasks[5];
+    for (int i = 0; i < 5; i++){
+        fscanf(taskFile, "%d", &tasks[i]);
+    }
+    
+    if (tasks[0] == 1) {
+        teams = readTeams(fileIn, fileOut);
+        fclose(fileOut); 
+    }
+
+    if (tasks[1] == 1) {
+        if (!teams) {
+            teams = readTeams(fileIn, fileOut);
+        }
+        int teamCount = getTeamCount(teams);
+        removePreliminary(&teams, &teamCount);
+        FILE* newFileOut = fopen(argv[3], "wt");
+        if (newFileOut == NULL) {
+            fileOpeningError();
+        }
+        printTeamsToFile(teams, newFileOut);
+        fclose(newFileOut);
+        //printTeams(teams);
+    }
+
     freeTeams(teams);
+    fclose(fileIn);
+    fclose(taskFile);
 
     return 0;
 }

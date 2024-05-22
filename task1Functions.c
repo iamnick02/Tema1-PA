@@ -63,6 +63,14 @@ TeamNode* readTeams(FILE* file, FILE* outputFile) {
     return teams;
 }
 
+void printTeamsToFile(TeamNode* teams, FILE* file) {
+    TeamNode* current = teams;
+    while (current != NULL) {
+        fprintf(file, "%s\n", current->team.teamName);
+        current = current->next;
+    }
+}
+
 void printTeams(TeamNode* teams) {
     TeamNode* current = teams;
     while (current != NULL) {

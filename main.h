@@ -41,6 +41,15 @@ typedef struct Stack {
     Node* top;
 } Stack;
 
+typedef struct BSTNode {
+    char* teamName;
+    float teamPoints;
+    struct BSTNode* left;
+    struct BSTNode* right;
+    int height;
+} BSTNode;
+
+
 void fileOpeningError();
 void memoryAllocationError();
 void openFiles(char *filename1, FILE **file1, char *filename2, FILE **file2, char *filename3, FILE **file3);
@@ -64,3 +73,9 @@ Node* pop(Stack* stack);
 void simulateMatches(TeamNode* teams, char* outputFilename);
 void freeQueue(Queue* queue);
 void freeStack(Stack* stack);
+BSTNode* newBSTNode(const char* name, float points);
+BSTNode* insertBST(BSTNode* node, const char* name, float points);
+void printBSTInDescendingOrder(BSTNode* root, FILE* outputFile);
+void freeBST(BSTNode* root);
+void Task4(const char *filename, TeamNode *lastEightTeams);
+void simulateMatchesAndBuildBST(TeamNode* teams, const char* outputFilename);

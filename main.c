@@ -45,6 +45,10 @@ int main(int argc, char *argv[]) {
         fclose(newFileOut);
     }
 
+    if (tasks[3] == 1) {
+        simulateMatchesAndBuildBST(teams, argv[3]);
+    }
+
     freeTeams(teams);
     fclose(fileIn);
     fclose(taskFile);

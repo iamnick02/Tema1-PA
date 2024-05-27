@@ -3,17 +3,17 @@
 #include <string.h>
 #include "main.h"
 
-int main(int argc, char *argv[])
-{
-    if (argc != 4)
+int main(int argc, char *argv[]) {
+    if (argc != 4) {
         return 1;
+    }
 
     FILE *taskFile, *fileIn, *fileOut;
     openFiles(argv[1], &taskFile, argv[2], &fileIn, argv[3], &fileOut);
     TeamNode* teams = NULL;
 
     int tasks[5];
-    for (int i = 0; i < 5; i++){
+    for (int i = 0; i < 5; i++) {
         fscanf(taskFile, "%d", &tasks[i]);
     }
     
@@ -34,7 +34,15 @@ int main(int argc, char *argv[])
         }
         printTeamsToFile(teams, newFileOut);
         fclose(newFileOut);
-        //printTeams(teams);
+    }
+
+    if (tasks[2] == 1) {
+        FILE* newFileOut = fopen(argv[3], "wt");
+        if (newFileOut == NULL) {
+            fileOpeningError();
+        }
+        simulateMatches(teams, argv[3]);
+        fclose(newFileOut);
     }
 
     freeTeams(teams);

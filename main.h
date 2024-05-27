@@ -2,22 +2,44 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct Player{
+// Structura pentru un jucător
+typedef struct Player {
     char *firstName;
     char *secondName;
     int points;
-}Player;
+} Player;
 
-typedef struct Team{
+// Structura pentru o echipă
+typedef struct Team {
     int teamMates;
     char *teamName;
     Player *players;
-}Team;
+    float teamPoints;  // Total points of the team
+    struct Team* next;
+} Team;
 
+// Structura pentru un nod al listei de echipe
 typedef struct TeamNode {
     Team team;
     struct TeamNode* next;
 } TeamNode;
+
+// Structura pentru un nod al cozii de meciuri
+typedef struct Node {
+    Team team;
+    struct Node* next;
+} Node;
+
+// Structura pentru o coadă de meciuri
+typedef struct Queue {
+    Node* front;
+    Node* rear;
+} Queue;
+
+// Structura pentru o stivă
+typedef struct Stack {
+    Node* top;
+} Stack;
 
 void fileOpeningError();
 void memoryAllocationError();
@@ -27,10 +49,18 @@ TeamNode* readTeams(FILE* file, FILE* outputFile);
 void printTeams(TeamNode* teams);
 void printTeamsToFile(TeamNode* teams, FILE* file); 
 void freeTeams(TeamNode* teams);
-int isPowerOfTwo(int n);
 int getTeamCount(TeamNode* teams);
 float getTeamPoints(Team* team);
 int findMinTeam(TeamNode* head);
-void deleteNodeAtPosition(TeamNode** head, int position);
+void deleteTeam(TeamNode** head, int position);
 void removePreliminary(TeamNode** head, int* n);
-void clearStack(TeamNode** head);
+Node* createNode(const char* name, float points);
+Queue* createQueue();
+void enqueue(Queue* queue, const char* name, float points);
+Node* dequeue(Queue* queue);
+Stack* createStack();
+void push(Stack* stack, const char* name, float points);
+Node* pop(Stack* stack);
+void simulateMatches(TeamNode* teams, char* outputFilename);
+void freeQueue(Queue* queue);
+void freeStack(Stack* stack);

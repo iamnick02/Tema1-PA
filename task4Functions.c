@@ -85,7 +85,8 @@ void simulateMatchesAndBuildBST(TeamNode* teams, const char* outputFilename) {
     freeStack(losers);
 
     // Afișăm echipele top 8 folosind BST
-    Task4(outputFilename, top8Teams);
+    BSTNode* BSTree = NULL;
+    BSTree = Task4(outputFilename, top8Teams);
     freeTeams(top8Teams);
 }
 
@@ -129,7 +130,7 @@ void freeBST(BSTNode* root) {
     free(root);
 }
 
-void Task4(const char *filename, TeamNode *lastEightTeams) {
+BSTNode* Task4(const char *filename, TeamNode *lastEightTeams) {
     FILE *filePrint = fopen(filename, "at");
     if (filePrint == NULL) {
         fileOpeningError();
@@ -145,8 +146,7 @@ void Task4(const char *filename, TeamNode *lastEightTeams) {
     }
 
     printBSTInDescendingOrder(BSTree, filePrint);
-
-    freeBST(BSTree);
-
     fclose(filePrint);
+
+    return BSTree;
 }

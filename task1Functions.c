@@ -33,7 +33,10 @@ TeamNode* readTeams(FILE* file, FILE* outputFile) {
         fscanf(file, "%d ", &playerCount);
 
         fgets(teamName, 50, file);
-        teamName[strcspn(teamName, "\n")] = 0;
+        teamName[strlen(teamName) - 2] = '\0';
+        if(teamName[strlen(teamName) - 1] == ' '){
+            teamName[strlen(teamName) - 1] = '\0';
+        }
 
         Team team;
         team.teamName = strdup(teamName);

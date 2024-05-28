@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (tasks[2] == 1) {
-        FILE* newFileOut = fopen(argv[3], "wt");
+       FILE* newFileOut = fopen(argv[3], "wt");
         if (newFileOut == NULL) {
             fileOpeningError();
         }
@@ -47,6 +47,10 @@ int main(int argc, char *argv[]) {
 
     if (tasks[3] == 1) {
         simulateMatchesAndBuildBST(teams, argv[3]);
+    }
+
+    if (tasks[4] == 1) {
+        simulateMatchesAndBuildAVL(teams, argv[3]);
     }
 
     freeTeams(teams);

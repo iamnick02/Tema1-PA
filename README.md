@@ -1,6 +1,6 @@
 # Tema 1 - Proiectarea Algoritmilor
 Obiectivele acestei teme:
-Intțelegerea conceptului de functionare si implementare a unor structuri de date(precum liste, stive, cozi, arbori binari de cautare)
+Intelegerea conceptului de functionare si implementare a unor structuri de date(precum liste, stive, cozi, arbori binari de cautare)
 Operarea cu aceste structuri de date
 Implementarea unei functionalitati practice folosind aceste concepte
 

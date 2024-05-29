@@ -2,45 +2,46 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Structura pentru un jucător
+//structura pentru un jucator
 typedef struct Player {
     char *firstName;
     char *secondName;
     int points;
 } Player;
 
-// Structura pentru o echipă
+//structura pentru o echipa
 typedef struct Team {
     int teamMates;
     char *teamName;
     Player *players;
-    float teamPoints;  // Total points of the team
+    float teamPoints; 
     struct Team* next;
 } Team;
 
-// Structura pentru un nod al listei de echipe
+//structura pentru un nod al listei de echipe
 typedef struct TeamNode {
     Team team;
     struct TeamNode* next;
 } TeamNode;
 
-// Structura pentru un nod al cozii de meciuri
+//structura pentru un nod al cozii de meciuri
 typedef struct Node {
     Team team;
     struct Node* next;
 } Node;
 
-// Structura pentru o coadă de meciuri
+//structura pentru o coada de meciuri
 typedef struct Queue {
     Node* front;
     Node* rear;
 } Queue;
 
-// Structura pentru o stivă
+//structura pentru o stiva
 typedef struct Stack {
     Node* top;
 } Stack;
 
+//structura pentru un nod din arborele binar de cautare
 typedef struct BSTNode {
     char* teamName;
     float teamPoints;
@@ -49,6 +50,7 @@ typedef struct BSTNode {
     int height;
 } BSTNode;
 
+//structura pentru un nod din arborele AVL
 typedef struct AVLNode {
     char* teamName;
     float teamPoints;
@@ -60,7 +62,7 @@ typedef struct AVLNode {
 void fileOpeningError();
 void memoryAllocationError();
 
-// Task 1 
+//Task 1 
 void openFiles(char *filename1, FILE **file1, char *filename2, FILE **file2, char *filename3, FILE **file3);
 TeamNode* addTeamAtBeginning(TeamNode** head, Team team);
 TeamNode* readTeams(FILE* file, FILE* outputFile);
@@ -68,14 +70,14 @@ void printTeams(TeamNode* teams);
 void printTeamsToFile(TeamNode* teams, FILE* file); 
 void freeTeams(TeamNode* teams);
 
-// Task 2 
+//Task 2 
 int getTeamCount(TeamNode* teams);
 float getTeamPoints(Team* team);
 int findMinTeam(TeamNode* head);
 void deleteTeam(TeamNode** head, int position);
 void removePreliminary(TeamNode** head, int* n);
 
-// Task 3 
+//Task 3 
 Node* createNode(const char* name, float points);
 Queue* createQueue();
 void enqueue(Queue* queue, const char* name, float points);
@@ -87,15 +89,15 @@ void simulateMatches(TeamNode* teams, char* outputFilename);
 void freeQueue(Queue* queue);
 void freeStack(Stack* stack);
 
-// Task 4
+//Task 4
 BSTNode* newBSTNode(const char* name, float points);
 BSTNode* insertBST(BSTNode* node, const char* name, float points);
-void printBSTInDescendingOrder(BSTNode* root, FILE* outputFile);
+void printBSTInDescending(BSTNode* root, FILE* outputFile);
 void freeBST(BSTNode* root);
 BSTNode* Task4(const char *filename, TeamNode *lastEightTeams);
 void simulateMatchesAndBuildBST(TeamNode* teams, const char* outputFilename);
 
-// Task 5
+//Task 5
 int max(int a, int b);
 int nodeHeight(AVLNode* node);
 AVLNode* newAVLNode(const char* name, float points);

@@ -1,5 +1,6 @@
 #include "main.h"
 
+//returnam nr de echipe
 int getTeamCount(TeamNode* teams) {
     int count = 0;
     TeamNode* current = teams;
@@ -10,14 +11,16 @@ int getTeamCount(TeamNode* teams) {
     return count;
 }
 
+//calculam punctele echipei
 float getTeamPoints(Team* team) {
     float total_points = 0;
     for (int i = 0; i < team->teamMates; i++) {
         total_points += team->players[i].points;
     }
-    return total_points;
+    return total_points / team->teamMates;
 }
 
+//returnam pozitia echipei cu cele mai mici puncte
 int findMinTeam(TeamNode* head) {
     TeamNode* current = head;
     int position = 1;
@@ -36,6 +39,7 @@ int findMinTeam(TeamNode* head) {
     return position;
 }
 
+//sterge echipa de pe o pozitie specifica
 void deleteTeam(TeamNode** head, int position) {
     TeamNode* temp;
     if (position == 1) {
@@ -51,7 +55,6 @@ void deleteTeam(TeamNode** head, int position) {
             i++;
         }
         if (current == NULL) {
-            printf("Position out of range\n");
             return;
         }
         prev->next = current->next;
@@ -66,6 +69,7 @@ void deleteTeam(TeamNode** head, int position) {
     free(temp);
 }
 
+//eliminam echipele preliminare pe baza punctelor
 void removePreliminary(TeamNode** head, int* n) {
     int power_of_2 = 1;
     while (power_of_2 * 2 <= *n) {

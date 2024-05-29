@@ -1,17 +1,18 @@
 #include "main.h"
 
+//returnam maximul
 int max(int a, int b) {
     return (a > b) ? a : b;
 }
 
-// Functie pentru a obtine inaltimea unui nod
+//calculam inaltimea unui nod
 int nodeHeight(AVLNode* node) {
     if (node == NULL)
         return -1;
     return node->height;
 }
 
-// Functie pentru a crea un nod nou pentru arborele AVL
+//cream un nod nou pt AVL
 AVLNode* newAVLNode(const char* name, float points) {
     AVLNode* node = (AVLNode*)malloc(sizeof(AVLNode));
     if (node == NULL) {
@@ -55,13 +56,14 @@ AVLNode* RLRotation(AVLNode* Z) {
     return LeftRotation(Z);
 }
 
-// Functie pentru a obtine factorul de echilibru al unui nod
+//obtinem factorul de echilibru al unui nod
 int getBalance(AVLNode* node) {
     if (node == NULL)
         return 0;
     return nodeHeight(node->left) - nodeHeight(node->right);
 }
 
+//inseram un nod in AVL
 AVLNode* insertAVL(AVLNode* node, const char* name, float points) {
     if (node == NULL) {
         return newAVLNode(name, points);
@@ -89,7 +91,7 @@ AVLNode* insertAVL(AVLNode* node, const char* name, float points) {
 
     int balance = getBalance(node);
 
-    // Rotatii pentru echilibrare
+    //rotatii pentru echilibrare
     if (balance > 1) {
         if (points < node->left->teamPoints) 
         {
@@ -107,7 +109,7 @@ AVLNode* insertAVL(AVLNode* node, const char* name, float points) {
         {
             return RightRotation(node);
         } 
-        else //if (points > node->left->teamPoints) 
+        else
         {
             return RLRotation(node);
         }
@@ -134,6 +136,7 @@ AVLNode* insertAVL(AVLNode* node, const char* name, float points) {
     return node;
 }
 
+//afisam numele echipei dintr un nivel al AVL ului
 void printLevel(AVLNode* root, int level, FILE* outputFile) {
     if (root == NULL) 
         return;
@@ -145,6 +148,7 @@ void printLevel(AVLNode* root, int level, FILE* outputFile) {
     }
 }
 
+//eliberam memoria alocata pentru nodurile din AVL
 void freeAVL(AVLNode* root) {
     if (root == NULL) return;
     freeAVL(root->left);
@@ -153,6 +157,7 @@ void freeAVL(AVLNode* root) {
     free(root);
 }
 
+//convertim BST -> AVL
 void convertBSTtoAVL(BSTNode* bstRoot, AVLNode** avlRoot) {
     if (bstRoot == NULL) return;
     convertBSTtoAVL(bstRoot->right, avlRoot);
@@ -160,7 +165,7 @@ void convertBSTtoAVL(BSTNode* bstRoot, AVLNode** avlRoot) {
     convertBSTtoAVL(bstRoot->left, avlRoot);
 }
 
-
+//construim AVL ul din BST 
 void Task5(const char* filename, BSTNode* root) {
     FILE* filePrint = fopen(filename, "at");
     if (filePrint == NULL) {
@@ -169,11 +174,12 @@ void Task5(const char* filename, BSTNode* root) {
     AVLNode* AVLTree = NULL;
     convertBSTtoAVL(root, &AVLTree);
     fprintf(filePrint, "\nTHE LEVEL 2 TEAMS ARE:\n");
-    printLevel(AVLTree, 2, filePrint);  // Afiseaza echipele la nivelul 2
+    printLevel(AVLTree, 2, filePrint);  //afiseaza echipele de pe nivelul 2
     fclose(filePrint);
     freeAVL(AVLTree);
 }
 
+//simulam meciurile si construim AVL ul pt top 8 echipe
 void simulateMatchesAndBuildAVL(TeamNode* teams, const char* outputFilename) {
     Queue* matches = createQueue();
     Stack* winners = createStack();
@@ -216,7 +222,7 @@ void simulateMatchesAndBuildAVL(TeamNode* teams, const char* outputFilename) {
                 team2->team.teamPoints++;
                 push(winners, team2->team.teamName, team2->team.teamPoints);
                 push(losers, team1->team.teamName, team1->team.teamPoints);
-            } else {
+            } else {//egalitate la puncte
                 push(winners, team2->team.teamName, team2->team.teamPoints + 1);
                 push(losers, team1->team.teamName, team1->team.teamPoints);
             }
@@ -240,7 +246,7 @@ void simulateMatchesAndBuildAVL(TeamNode* teams, const char* outputFilename) {
 
         round++;
 
-        // Salvăm cele 8 echipe rămase când numărul de echipe este 8
+        //salvam cele 8 echipe ramase cand nr de echipe e 8
         if (queueSize == 8) {
             Node* currentNode = matches->front;
             while (currentNode) {

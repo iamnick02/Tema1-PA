@@ -1,5 +1,6 @@
 #include "main.h"
 
+//deschidem fisierele
 void openFiles(char *filename1, FILE **file1, char *filename2, FILE **file2, char *filename3, FILE **file3) {
     *file1 = fopen(filename1, "rt");
     if(*file1 == NULL)
@@ -14,6 +15,7 @@ void openFiles(char *filename1, FILE **file1, char *filename2, FILE **file2, cha
         fileOpeningError();
 }
 
+//adaugam o echipa la inceputul listei de echipa
 TeamNode* addTeamAtBeginning(TeamNode** head, Team team) {
     TeamNode* newNode = (TeamNode*) malloc(sizeof(TeamNode));
     newNode->team = team;
@@ -22,6 +24,7 @@ TeamNode* addTeamAtBeginning(TeamNode** head, Team team) {
     return *head;
 }
 
+//citim echipele din fisierul de date si le adaugam la lista de echipe
 TeamNode* readTeams(FILE* file, FILE* outputFile) {
     int teamCount;
     fscanf(file, "%d\n", &teamCount); 
@@ -66,6 +69,7 @@ TeamNode* readTeams(FILE* file, FILE* outputFile) {
     return teams;
 }
 
+//afisarea echipelor
 void printTeamsToFile(TeamNode* teams, FILE* file) {
     TeamNode* current = teams;
     while (current != NULL) {
@@ -74,6 +78,7 @@ void printTeamsToFile(TeamNode* teams, FILE* file) {
     }
 }
 
+//afisarea echieplor in fisier
 void printTeams(TeamNode* teams) {
     TeamNode* current = teams;
     while (current != NULL) {
@@ -82,6 +87,7 @@ void printTeams(TeamNode* teams) {
     }
 }
 
+//eliberarea de memorie alocata echipelor
 void freeTeams(TeamNode* teams) {
     TeamNode* current = teams;
     while (current != NULL) {

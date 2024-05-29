@@ -1,5 +1,6 @@
 #include "main.h"
 
+//cream un nou nod pentru coada de meciuri
 Node* createNode(const char* name, float points) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     if (newNode == NULL) {
@@ -12,6 +13,7 @@ Node* createNode(const char* name, float points) {
     return newNode;
 }
 
+// cream o coada de meciuri
 Queue* createQueue() {
     Queue* queue = (Queue*)malloc(sizeof(Queue));
     if (queue == NULL) {
@@ -22,6 +24,7 @@ Queue* createQueue() {
     return queue;
 }
 
+//adaugam un nod la coada de meciuri
 void enqueue(Queue* queue, const char* name, float points) {
     Node* newNode = createNode(name, points);
     if (newNode == NULL) return;
@@ -33,6 +36,7 @@ void enqueue(Queue* queue, const char* name, float points) {
     queue->rear = newNode;
 }
 
+//eliminam un nod din coada de meciuri
 Node* dequeue(Queue* queue) {
     if (queue->front == NULL) return NULL;
     Node* temp = queue->front;
@@ -41,6 +45,7 @@ Node* dequeue(Queue* queue) {
     return temp;
 }
 
+//cream o stiva
 Stack* createStack() {
     Stack* stack = (Stack*)malloc(sizeof(Stack));
     if (stack == NULL) {
@@ -51,6 +56,7 @@ Stack* createStack() {
     return stack;
 }
 
+//adaugam un nod in stiva
 void push(Stack* stack, const char* name, float points) {
     Node* newNode = createNode(name, points);
     if (newNode == NULL) return;
@@ -58,6 +64,7 @@ void push(Stack* stack, const char* name, float points) {
     stack->top = newNode;
 }
 
+//eliminam un nod in stiva
 Node* pop(Stack* stack) {
     if (stack->top == NULL) return NULL;
     Node* temp = stack->top;
@@ -65,6 +72,7 @@ Node* pop(Stack* stack) {
     return temp;
 }
 
+//simulam meciurile si afisam rezultatele in fisier
 void simulateMatches(TeamNode* teams, char* outputFilename) {
     Queue* matches = createQueue();
     Stack* winners = createStack();
@@ -104,7 +112,7 @@ void simulateMatches(TeamNode* teams, char* outputFilename) {
                 team2->team.teamPoints++;
                 push(winners, team2->team.teamName, team2->team.teamPoints);
                 push(losers, team1->team.teamName, team1->team.teamPoints);
-            } else { // Egalitate la puncte
+            } else {//egalitate la puncte
                 push(winners, team2->team.teamName, team2->team.teamPoints + 1);
                 push(losers, team1->team.teamName, team1->team.teamPoints);
             }
@@ -125,8 +133,8 @@ void simulateMatches(TeamNode* teams, char* outputFilename) {
             winner = pop(winners);
         }
 
-        // Salvăm echipele câștigătoare în top8Teams
-        if (matches->front && matches->front->next == NULL) { // dacă avem 8 echipe
+        //salvam echipele castigatoare în top8Teams
+        if (matches->front && matches->front->next == NULL) { //daca avem 8 echipe
             while (matches->front) {
                 Node* temp = dequeue(matches);
                 Team team;
@@ -147,6 +155,7 @@ void simulateMatches(TeamNode* teams, char* outputFilename) {
     freeStack(losers);
 }
 
+//eliberarea memoriei pentru coada
 void freeQueue(Queue* queue) {
     while (queue->front) {
         Node* temp = dequeue(queue);
@@ -156,6 +165,7 @@ void freeQueue(Queue* queue) {
     free(queue);
 }
 
+//eliminarea memoriei pentru stiva
 void freeStack(Stack* stack) {
     while (stack->top) {
         Node* temp = pop(stack);
@@ -164,4 +174,3 @@ void freeStack(Stack* stack) {
     }
     free(stack);
 }
-

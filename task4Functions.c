@@ -1,5 +1,6 @@
 #include "main.h"
 
+//simulam meciurile si construim BST
 void simulateMatchesAndBuildBST(TeamNode* teams, const char* outputFilename) {
     Queue* matches = createQueue();
     Stack* winners = createStack();
@@ -42,7 +43,7 @@ void simulateMatchesAndBuildBST(TeamNode* teams, const char* outputFilename) {
                 team2->team.teamPoints++;
                 push(winners, team2->team.teamName, team2->team.teamPoints);
                 push(losers, team1->team.teamName, team1->team.teamPoints);
-            } else {
+            } else {//egalitate la puncte
                 push(winners, team2->team.teamName, team2->team.teamPoints + 1);
                 push(losers, team1->team.teamName, team1->team.teamPoints);
             }
@@ -66,7 +67,7 @@ void simulateMatchesAndBuildBST(TeamNode* teams, const char* outputFilename) {
 
         round++;
 
-        // Salvăm cele 8 echipe rămase când numărul de echipe este 8
+        //salvam cele 8 echipe ramase cand nr de echipe e 8
         if (queueSize == 8) {
             Node* currentNode = matches->front;
             while (currentNode) {
@@ -84,13 +85,13 @@ void simulateMatchesAndBuildBST(TeamNode* teams, const char* outputFilename) {
     freeStack(winners);
     freeStack(losers);
 
-    // Afișăm echipele top 8 folosind BST
+    //afisam echipele top 8 folosind BST
     BSTNode* BSTree = NULL;
     BSTree = Task4(outputFilename, top8Teams);
     freeTeams(top8Teams);
 }
 
-
+//cream un nou nod pentru BST
 BSTNode* newBSTNode(const char* name, float points) {
     BSTNode* node = (BSTNode*)malloc(sizeof(BSTNode));
     if (node == NULL) {
@@ -103,6 +104,7 @@ BSTNode* newBSTNode(const char* name, float points) {
     return node;
 }
 
+//inseram un nod in BST
 BSTNode* insertBST(BSTNode* node, const char* name, float points) {
     if (node == NULL) 
         return newBSTNode(name, points);
@@ -115,13 +117,15 @@ BSTNode* insertBST(BSTNode* node, const char* name, float points) {
     return node;
 }
 
-void printBSTInDescendingOrder(BSTNode* root, FILE* outputFile) {
+//afisam elementele din BST in ordine descrescatoare
+void printBSTInDescending(BSTNode* root, FILE* outputFile) {
     if (root == NULL) return;
-    printBSTInDescendingOrder(root->right, outputFile);
+    printBSTInDescending(root->right, outputFile);
     fprintf(outputFile, "%-33s -  %.2f\n", root->teamName, root->teamPoints);
-    printBSTInDescendingOrder(root->left, outputFile);
+    printBSTInDescendin(root->left, outputFile);
 }
 
+//eliberam memoria alocata pt nodurile din BST
 void freeBST(BSTNode* root) {
     if (root == NULL) return;
     freeBST(root->left);
@@ -130,6 +134,7 @@ void freeBST(BSTNode* root) {
     free(root);
 }
 
+//construim BST ul pt top 8 echipe
 BSTNode* Task4(const char *filename, TeamNode *lastEightTeams) {
     FILE *filePrint = fopen(filename, "at");
     if (filePrint == NULL) {
@@ -145,7 +150,7 @@ BSTNode* Task4(const char *filename, TeamNode *lastEightTeams) {
         currentTeam = currentTeam->next;
     }
 
-    printBSTInDescendingOrder(BSTree, filePrint);
+    printBSTInDescending(BSTree, filePrint);
     fclose(filePrint);
 
     return BSTree;

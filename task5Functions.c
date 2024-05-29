@@ -1,22 +1,5 @@
 #include "main.h"
 
-void printTree(AVLNode *root, int level)
-{
-    if (root == NULL) {
-        return;
-    }
-
-    printTree(root->right, level+1);
-
-    for (int i = 0; i < level; i++)
-    {
-        printf("\t");
-    }
-    printf("%s-%.2f\n", root->teamName, root->teamPoints);
-
-    printTree(root->left, level + 1);
-}
-
 int max(int a, int b) {
     return (a > b) ? a : b;
 }
@@ -49,7 +32,6 @@ AVLNode* LeftRotation(AVLNode* z) {
     z->right = T2;
     z->height = max(nodeHeight(z->left), nodeHeight(z->right)) + 1;
     y->height = max(nodeHeight(y->left), nodeHeight(y->right)) + 1;
-    printf("Intrat l\n");
     return y;
 }
 
@@ -60,19 +42,16 @@ AVLNode* RightRotation(AVLNode* z) {
     z->left = T3;
     z->height = max(nodeHeight(z->left), nodeHeight(z->right)) + 1;
     y->height = max(nodeHeight(y->left), nodeHeight(y->right)) + 1;
-    printf("Intrat r\n");
     return y;
 }
 
 AVLNode* LRRotation(AVLNode* Z) {
     Z->left = LeftRotation(Z->left);
-    printf("Intrat lr\n");
     return RightRotation(Z);
 }
 
 AVLNode* RLRotation(AVLNode* Z) {
     Z->right = RightRotation(Z->right);
-    printf("Intrat rl\n");
     return LeftRotation(Z);
 }
 
@@ -105,8 +84,7 @@ AVLNode* insertAVL(AVLNode* node, const char* name, float points) {
                 node->left = insertAVL(node->left, name, points);
         }
     }
-    printTree(node, 0);
-    printf("-----\n");
+
     node->height = 1 + max(nodeHeight(node->left), nodeHeight(node->right));
 
     int balance = getBalance(node);
@@ -147,19 +125,14 @@ AVLNode* insertAVL(AVLNode* node, const char* name, float points) {
         } else 
         {
         if (points == node->right->teamPoints && strcmp(name, node->right->teamName) < 0) {
-            printf("da\n");
             return LeftRotation(node);
-        } else //if (points < node->right->teamPoints) {
+        } else 
             return LRRotation(node);
         }
     }
     }
-    //printTree(node, 0);
-    //printf("-----\n");
     return node;
 }
-
-
 
 void printLevel(AVLNode* root, int level, FILE* outputFile) {
     if (root == NULL) 
@@ -180,12 +153,13 @@ void freeAVL(AVLNode* root) {
     free(root);
 }
 
-void BST_AVL(BSTNode* root, AVLNode** root1) {
-    if (root == NULL) return;
-    BST_AVL(root->right, root1);
-    *root1 = insertAVL(*root1, root->teamName, root->teamPoints);
-    BST_AVL(root->left, root1);
+void convertBSTtoAVL(BSTNode* bstRoot, AVLNode** avlRoot) {
+    if (bstRoot == NULL) return;
+    convertBSTtoAVL(bstRoot->right, avlRoot);
+    *avlRoot = insertAVL(*avlRoot, bstRoot->teamName, bstRoot->teamPoints);
+    convertBSTtoAVL(bstRoot->left, avlRoot);
 }
+
 
 void Task5(const char* filename, BSTNode* root) {
     FILE* filePrint = fopen(filename, "at");
@@ -193,14 +167,8 @@ void Task5(const char* filename, BSTNode* root) {
         fileOpeningError();
     }
     AVLNode* AVLTree = NULL;
-    //TeamNode* currentTeam = lastEightTeams;
-    /*while (currentTeam != NULL) {
-        AVLTree = insertAVL(AVLTree, currentTeam->team.teamName, currentTeam->team.teamPoints);
-        currentTeam = currentTeam->next;
-    }*/
-    BST_AVL(root, &AVLTree);
+    convertBSTtoAVL(root, &AVLTree);
     fprintf(filePrint, "\nTHE LEVEL 2 TEAMS ARE:\n");
-    printTree(AVLTree, 0);
     printLevel(AVLTree, 2, filePrint);  // Afiseaza echipele la nivelul 2
     fclose(filePrint);
     freeAVL(AVLTree);

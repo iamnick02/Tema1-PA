@@ -59,17 +59,23 @@ typedef struct AVLNode {
 
 void fileOpeningError();
 void memoryAllocationError();
+
+// Task 1 
 void openFiles(char *filename1, FILE **file1, char *filename2, FILE **file2, char *filename3, FILE **file3);
 TeamNode* addTeamAtBeginning(TeamNode** head, Team team);
 TeamNode* readTeams(FILE* file, FILE* outputFile);
 void printTeams(TeamNode* teams);
 void printTeamsToFile(TeamNode* teams, FILE* file); 
 void freeTeams(TeamNode* teams);
+
+// Task 2 
 int getTeamCount(TeamNode* teams);
 float getTeamPoints(Team* team);
 int findMinTeam(TeamNode* head);
 void deleteTeam(TeamNode** head, int position);
 void removePreliminary(TeamNode** head, int* n);
+
+// Task 3 
 Node* createNode(const char* name, float points);
 Queue* createQueue();
 void enqueue(Queue* queue, const char* name, float points);
@@ -80,26 +86,16 @@ Node* pop(Stack* stack);
 void simulateMatches(TeamNode* teams, char* outputFilename);
 void freeQueue(Queue* queue);
 void freeStack(Stack* stack);
+
+// Task 4
 BSTNode* newBSTNode(const char* name, float points);
 BSTNode* insertBST(BSTNode* node, const char* name, float points);
 void printBSTInDescendingOrder(BSTNode* root, FILE* outputFile);
 void freeBST(BSTNode* root);
 BSTNode* Task4(const char *filename, TeamNode *lastEightTeams);
 void simulateMatchesAndBuildBST(TeamNode* teams, const char* outputFilename);
-void freeQueue(Queue* queue);
-void freeStack(Stack* stack);
-BSTNode* newBSTNode(const char* name, float points);
-BSTNode* insertBST(BSTNode* node, const char* name, float points);
-void printBSTInDescendingOrder(BSTNode* root, FILE* outputFile);
-void freeBST(BSTNode* root);
-void simulateMatchesAndBuildBST(TeamNode* teams, const char* outputFilename);
-void freeQueue(Queue* queue);
-void freeStack(Stack* stack);
-BSTNode* newBSTNode(const char* name, float points);
-BSTNode* insertBST(BSTNode* node, const char* name, float points);
-void printBSTInDescendingOrder(BSTNode* root, FILE* outputFile);
-void freeBST(BSTNode* root);
-void simulateMatchesAndBuildBST(TeamNode* teams, const char* outputFilename);
+
+// Task 5
 int max(int a, int b);
 int nodeHeight(AVLNode* node);
 AVLNode* newAVLNode(const char* name, float points);
@@ -113,5 +109,4 @@ void printLevel(AVLNode* root, int level, FILE* outputFile);
 void Task5(const char* filename, BSTNode* root);
 void freeAVL(AVLNode* root);
 void simulateMatchesAndBuildAVL(TeamNode* teams, const char* outputFilename);
-void printTree(AVLNode *root, int level);
-void BST_AVL(BSTNode* root, AVLNode** root1);
+void convertBSTtoAVL(BSTNode* bstRoot, AVLNode** avlRoot);
